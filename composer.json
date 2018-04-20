@@ -1,0 +1,40 @@
+{
+    "name": "okipa/laravel-base-request",
+    "description": "",
+    "keywords": [
+        "okipa",
+        "php",
+        "laravel",
+        "base",
+        "request"
+    ],
+    "homepage": "https://github.com/Okipa/laravel-base-request",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arthur LORENT",
+            "email": "arthur.lorent@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "laravel/framework": "~5.0",
+        "acid-solutions/input-sanitizer": "^1.0"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Okipa\\LaravelBaseRepository\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Okipa\\LaravelBaseRequest\\LaravelBaseRequestServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable"
+}
