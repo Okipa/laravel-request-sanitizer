@@ -1,5 +1,3 @@
-# PACKAGE IN DEVELOPMENT
-
 # Laravel Base Request
 
 This package is helping you to easily sanitize your request entries :
