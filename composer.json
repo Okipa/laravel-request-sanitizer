@@ -1,14 +1,18 @@
 {
-    "name": "okipa/laravel-base-request",
-    "description": "",
+    "name": "okipa/laravel-request-sanitizer",
+    "description": "This package is helping you to easily sanitize your request inputs.",
     "keywords": [
         "okipa",
+        "package",
         "php",
         "laravel",
+        "request",
         "base",
-        "request"
+        "clean",
+        "sanitize",
+        "sanitizer"
     ],
-    "homepage": "https://github.com/Okipa/laravel-base-request",
+    "homepage": "https://github.com/Okipa/laravel-sanitizer",
     "license": "MIT",
     "authors": [
         {
@@ -19,20 +23,26 @@
     ],
     "require": {
         "php": ">=7.0",
-        "laravel/framework": "~5.0",
-        "acid-solutions/input-sanitizer": "^1.0"
+        "illuminate/support": "~5.0",
+        "okipa/php-data-sanitizer": "^1.0"
     },
     "require-dev": {
+        "orchestra/testbench": "^3.6"
     },
     "autoload": {
         "psr-4": {
-            "Okipa\\LaravelBaseRepository\\": "src/"
+            "Okipa\\LaravelRequestSanitizer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Okipa\\LaravelRequestSanitizer\\Test\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Okipa\\LaravelBaseRequest\\LaravelBaseRequestServiceProvider"
+                "Okipa\\LaravelRequestSanitizer\\RequestSanitizerServiceProvider"
             ]
         }
     },
