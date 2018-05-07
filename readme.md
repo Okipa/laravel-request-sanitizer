@@ -1,7 +1,7 @@
 # Laravel Base Request
 
 This package is helping you to easily sanitize your request entries :
-- entries auto-casting ([PHP Input Sanitizer package](https://github.com/ACID-Solutions/input-sanitizer)).
+- entries sanitizing ([PHP Input Sanitizer package](https://github.com/ACID-Solutions/input-sanitizer)).
 - null entries exclusion.
 - boolean values safety check.
 
@@ -47,12 +47,58 @@ class Request extends RequestSanitizer
 | Property | Default value | Description |
 |-----------|-----------|-----------|
 | $sanitizeEntries | true | Recursively sanitize the request entries. To check how data will be sanitized, check the used package : https://github.com/Okipa/php-data-sanitizer. Declare this property to false to disable the request entries sanitizing. |
-| $exceptFromSanitize | [] | Except the given keys (dot notation accepted) from the request entries sanitizing. It can be a good option when you have numbers beginning with a zero that you want to keep that way, for example. |
+| $exceptFromSanitize | [] | Except the declared keys (dot notation accepted) from the request entries sanitizing. It can be a good option when you have numbers beginning with a zero that you want to keep that way, for example. |
 | $excludeNullEntries | true | Recursively exclude all the null entries from the request. Declare this property to false to disable the null entries exclusion. |
-| $exceptFromNullExclusion | [] | Except the given keys (dot notation accepted) from the null entries exclusion. |
-| $safetyCheckBooleanValues | [] | Set the which request keys (dot notation accepted) should be safety checked. If a given key is declared in this array and is not found in the request, it will take « false » for value. |
+| $exceptFromNullExclusion | [] | Except the declared keys (dot notation accepted) from the null entries exclusion. |
+| $safetyCheckBooleanValues | [] | Set which request keys associated boolean values (dot notation accepted) should be safety checked. If a given key or its associated boolean value is declared in this array and is not given in the request, it will take « false » for value. |
 
 ### Methods
 | Method |  Description |
 |-----------|-----------|
 | before() | This package gives you the opportunity to declare this method in your request. It will be executed just after the request instantiation and before all other treatments. |
+
+------------------------------------------------------------------------------------------------------------------------
+
+## Usage example
+
+```php
+
+namespace App\Http\Requests;
+
+use App\Http\Requests\BaseRequest; // your base request has to extend the RequestSanitizer
+
+class EditUserRequest extends BaseRequest
+{
+    protected $sanitizeEntries = true; // default value
+    protected $exceptFromSanitize = ['user.phone_number']; // except the phone number from the sanitizing treatment in order to keep the phone number first zero (example : 0240506070)
+    protected $excludeNullEntries = true; // default value
+    protected $exceptFromNullExclusion = ['user.company_name']; // is kept in the request keys even if its value is null
+    protected $safetyCheckBooleanValues = ['user.newsletter.subscription','user.activation']; // will make sure that the declared keys will be returned as boolean values in the request (will take « false » as value if not given)
+
+    /**
+     * Execute some treatments just after the request creation
+     */
+    public function before()
+    {
+        // execute your custom request treatments here
+        $this->merge(['formatted_date' => Carbon::createFromFormat('d/m/Y H:i:s', $this->input('user.created_at')->toDateTimeString()]);
+    }
+
+    /**
+     * Set the validation rules
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            // other rules ...
+            'user.phone_number'             => 'required|string',
+            'user.company_name'             => 'nullable|string|max:255',
+            'user.newsletter.subscription'  => 'required|boolean'
+            'user.activation'               => 'required|boolean',
+            'formatted_date'                =>  ''
+        ];
+    }
+}
+```
