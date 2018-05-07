@@ -1,4 +1,12 @@
-# Laravel Base Request
+# Laravel Request Sanitizer
+
+[![Source Code](https://img.shields.io/badge/source-okipa/php--data--sanitizer-blue.svg)](https://github.com/Okipa/laravel-request-sanitizer)
+[![Latest Version](https://img.shields.io/github/release/okipa/laravel-request-sanitizer.svg?style=flat-square)](https://github.com/Okipa/laravel-request-sanitizer/releases)
+[![Total Downloads](https://img.shields.io/packagist/dt/okipa/laravel-request-sanitizer.svg?style=flat-square)](https://packagist.org/packages/okipa/laravel-request-sanitizer)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/?branch=master)
 
 This package is helping you to easily sanitize your request entries :
 - entries sanitizing ([PHP Input Sanitizer package](https://github.com/ACID-Solutions/input-sanitizer)).
