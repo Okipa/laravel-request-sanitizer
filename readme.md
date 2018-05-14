@@ -109,7 +109,7 @@ class EditUserRequest extends BaseRequest
 | $safetyCheckBooleanValues | [] | Set which request keys associated boolean values (dot notation accepted) should be safety checked. If a given key or its associated boolean value is declared in this array and is not given in the request, it will take « false » for value. |
 
 ### Methods
-| Method |  Description |
+| Method | Description |
 |-----------|-----------|
 | before() | This package gives you the opportunity to declare this method in your request. It will be executed just after the request instantiation and before all other treatments. |
 
