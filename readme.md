@@ -100,15 +100,15 @@ class EditUserRequest extends BaseRequest
 ## API
 
 ### Properties
-| Property | Default value | Description |
-|-----------|-----------|-----------|
-| $sanitizeEntries | true | Recursively sanitize the request entries. To check how data will be sanitized, check the used package : https://github.com/Okipa/php-data-sanitizer. Declare this property to false to disable the request entries sanitizing. |
-| $exceptFromSanitize | [] | Except the declared keys (dot notation accepted) from the request entries sanitizing. It can be a good option when you have numbers beginning with a zero that you want to keep that way, for example. |
-| $excludeNullEntries | true | Recursively exclude all the null entries from the request. Declare this property to false to disable the null entries exclusion. |
-| $exceptFromNullExclusion | [] | Except the declared keys (dot notation accepted) from the null entries exclusion. |
-| $safetyCheckBooleanValues | [] | Set which request keys associated boolean values (dot notation accepted) should be safety checked. If a given key or its associated boolean value is declared in this array and is not given in the request, it will take « false » for value. |
+| Property | Visibility | Default value | Description |
+|-----------|-----------|-----------|-----------|
+| $sanitizeEntries | protected | true | Recursively sanitize the request entries. To check how data will be sanitized, check the used package : https://github.com/Okipa/php-data-sanitizer. Declare this property to false to disable the request entries sanitizing. |
+| $exceptFromSanitize | protected | [] | Except the declared keys (dot notation accepted) from the request entries sanitizing. It can be a good option when you have numbers beginning with a zero that you want to keep that way, for example. |
+| $excludeNullEntries | protected | true | Recursively exclude all the null entries from the request. Declare this property to false to disable the null entries exclusion. |
+| $exceptFromNullExclusion | protected | [] | Except the declared keys (dot notation accepted) from the null entries exclusion. |
+| $safetyCheckBooleanValues | protected | [] | Set which request keys associated boolean values (dot notation accepted) should be safety checked. If a given key or its associated boolean value is declared in this array and is not given in the request, it will take « false » for value. |
 
-### Methods
+### Public methods
 | Method | Description |
 |-----------|-----------|
 | before() | This package gives you the opportunity to declare this method in your request. It will be executed just after the request instantiation and before all other treatments. |
