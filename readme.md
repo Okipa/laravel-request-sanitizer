@@ -24,7 +24,7 @@ This package is helping you to easily sanitize your request entries :
 
 - Install the package with composer :
 ```bash
-composer require okipa/laravel-base-request
+composer require okipa/laravel-request-sanitizer
 ```
 
 - Laravel 5.5+ uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
