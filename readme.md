@@ -121,4 +121,4 @@ class EditUserRequest extends BaseRequest
 
 - `before()`
     > This package gives you the opportunity to declare this method in your request.  
-    > It will be executed just after the request instantiation and before all other treatments.
+    > It will be executed before all the request attributes treatments.
