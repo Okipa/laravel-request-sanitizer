@@ -57,9 +57,9 @@ class Request extends RequestSanitizer
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\BaseRequest; // your base request has to extend the RequestSanitizer
+use Okipa\LaravelRequestSanitizer\RequestSanitizer;
 
-class EditUserRequest extends BaseRequest
+class EditUserRequest extends RequestSanitizer
 {
     protected $sanitizeEntries = true; // default value
     protected $exceptFromSanitize = ['user.phone_number']; // except the phone number from the sanitizing treatment in order to keep the phone number first zero (example : 0240506070)
@@ -89,7 +89,7 @@ class EditUserRequest extends BaseRequest
             'user.company_name'             => 'nullable|string|max:255',
             'user.newsletter.subscription'  => 'required|boolean'
             'user.activation'               => 'required|boolean',
-            'formatted_date'                =>  ''
+            'formatted_date'                =>  'required|date|format:Y-m-d H:i:s'
         ];
     }
 }
