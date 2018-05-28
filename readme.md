@@ -24,7 +24,7 @@ This package is helping you to easily sanitize your request entries :
 
 - Install the package with composer :
 ```bash
-composer require okipa/laravel-base-request
+composer require okipa/laravel-request-sanitizer
 ```
 
 - Laravel 5.5+ uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
@@ -121,4 +121,4 @@ class EditUserRequest extends RequestSanitizer
 
 - `before()`
     > This package gives you the opportunity to declare this method in your request.  
-    > It will be executed just after the request instantiation and before all other treatments.
+    > It will be executed before all the request attributes treatments.

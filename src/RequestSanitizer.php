@@ -34,24 +34,24 @@ class RequestSanitizer extends FormRequest
     protected $safetyCheckBooleanValues = [];
 
     /**
-     * @param array                $query      The GET parameters
-     * @param array                $request    The POST parameters
-     * @param array                $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
-     * @param array                $cookies    The COOKIE parameters
-     * @param array                $files      The FILES parameters
-     * @param array                $server     The SERVER parameters
-     * @param string|resource|null $content    The raw body data
+     * Get data to be validated from the request.
+     *
+     * @return array
      */
-    public function __construct(
-        array $query = [],
-        array $request = [],
-        array $attributes = [],
-        array $cookies = [],
-        array $files = [],
-        array $server = [],
-        $content = null
-    ) {
-        parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
+    protected function validationData()
+    {
+        $this->sanitizeRequest();
+
+        return parent::validationData();
+    }
+
+    /**
+     * Sanitize the request.
+     *
+     * @return void
+     */
+    public function sanitizeRequest()
+    {
         if (method_exists($this, 'before')) {
             $this->before();
         }
@@ -85,10 +85,9 @@ class RequestSanitizer extends FormRequest
     protected function excludeNullEntries()
     {
         $filteredEntries = [];
-        $this->excludeNullEntriesProcess($this->except($this->exceptFromNullExclusion), $filteredEntries);
-        $mergedExcludedNullEntries = array_replace_recursive($this->all(), $filteredEntries);
+        $this->excludeNullEntriesProcess($this->all(), $filteredEntries);
 
-        return $mergedExcludedNullEntries;
+        return $filteredEntries;
     }
 
     /**
@@ -100,7 +99,7 @@ class RequestSanitizer extends FormRequest
     protected function excludeNullEntriesProcess(array $entries, array &$filteredEntries)
     {
         foreach ($entries as $key => $entry) {
-            if (! is_null($entry)) {
+            if (! is_null($entry) || in_array($key, $this->exceptFromNullExclusion)) {
                 if (is_array($entry)) {
                     $arrayEntries = [];
                     $this->excludeNullEntriesProcess($entry, $arrayEntries);
