@@ -4,12 +4,13 @@ namespace Okipa\LaravelRequestSanitizer\Test\Requests;
 
 use Okipa\LaravelRequestSanitizer\RequestSanitizer;
 
-class BooleanValuesSafetyCheckedRequest extends RequestSanitizer
+class NestedValuesSafetyCheckedRequest extends RequestSanitizer
 {
-    protected $safetyCheckBooleanValues = [
-        'booleanTrue',
-        'BooleanNull',
-        'BooleanNotGiven'
+    protected $safetyChecks = [
+        'user.activatedTrue'       => 'boolean',
+        'user.activatedNotGiven'   => 'boolean',
+        'user.permissionsFilled'   => 'array',
+        'user.permissionsNotGiven' => 'array',
     ];
 
     /**

@@ -4,14 +4,14 @@ namespace Okipa\LaravelRequestSanitizer\Test\Unit;
 
 use Illuminate\Support\Facades\Hash;
 use Okipa\LaravelRequestSanitizer\Test\Requests\BeforeSanitizingRequest;
-use Okipa\LaravelRequestSanitizer\Test\Requests\BooleanNestedValuesSafetyCheckedRequest;
-use Okipa\LaravelRequestSanitizer\Test\Requests\BooleanValuesSafetyCheckedRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\DisabledEntriesSanitizingRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\DisabledNullEntriesExclusionRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\ExceptNullEntryFromNullExclusionRequest;
+use Okipa\LaravelRequestSanitizer\Test\Requests\NestedValuesSafetyCheckedRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\NullEntriesExclusionRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\NumberBeginningWithZeroNestedValuesSanitizingRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\NumberBeginningWithZeroValuesSanitizingRequest;
+use Okipa\LaravelRequestSanitizer\Test\Requests\ValuesSafetyCheckedRequest;
 use Okipa\LaravelRequestSanitizer\Test\RequestSanitizerTestCase;
 
 class RequestSanitizerTest extends RequestSanitizerTestCase
@@ -63,33 +63,40 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
         ], $request->all());
     }
 
-    public function testRequestWithBooleanValues()
+    public function testRequestWithSafetyValues()
     {
-        $request = BooleanValuesSafetyCheckedRequest::create('test', 'GET', [
+        $request = ValuesSafetyCheckedRequest::create('test', 'GET', [
             'booleanTrue' => true,
-            'BooleanNull' => null,
+            'booleanNull' => null,
+            'arrayFilled' => ['test1', 'test2'],
+            'arrayEmpty'  => [],
         ]);
         $request->sanitizeRequest();
         $this->assertEquals([
             'booleanTrue'     => true,
-            'BooleanNull'     => false,
-            'BooleanNotGiven' => false,
+            'booleanNull'     => false,
+            'booleanNotGiven' => false,
+            'arrayFilled'     => ['test1', 'test2'],
+            'arrayEmpty'      => [],
+            'arrayNotGiven'   => [],
         ], $request->all());
     }
 
-    public function testRequestWithBooleanNestedValues()
+    public function testRequestWithSafetyNestedValues()
     {
         $userData = [
             'user' => [
-                'name'          => $this->faker->name,
-                'email'         => $this->faker->email,
-                'password'      => Hash::make($this->faker->password),
-                'activatedTrue' => true,
+                'name'              => $this->faker->name,
+                'email'             => $this->faker->email,
+                'password'          => Hash::make($this->faker->password),
+                'activatedTrue'     => true,
+                'permissionsFilled' => ['test1', 'test2'],
             ],
         ];
-        $request = BooleanNestedValuesSafetyCheckedRequest::create('test', 'GET', $userData);
+        $request = NestedValuesSafetyCheckedRequest::create('test', 'GET', $userData);
         $request->sanitizeRequest();
         $userData['user'] = array_add($userData['user'], 'activatedNotGiven', false);
+        $userData['user'] = array_add($userData['user'], 'permissionsNotGiven', []);
         $this->assertEquals($userData, $request->all());
     }
 
