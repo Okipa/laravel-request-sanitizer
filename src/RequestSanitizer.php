@@ -49,15 +49,41 @@ class RequestSanitizer extends FormRequest
     protected $safetyChecks = [];
 
     /**
-     * Get data to be validated from the request.
+     * Execute some treatments before the request sanitizing.
+     */
+    public function before()
+    {
+        //
+    }
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules to check on the request.
      *
      * @return array
      */
-    protected function validationData(): array
+    public function rules()
+    {
+        return [];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
     {
         $this->sanitizeRequest();
-
-        return parent::validationData();
     }
 
     /**

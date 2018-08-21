@@ -2,7 +2,8 @@
 
 namespace Okipa\LaravelRequestSanitizer\Test\Unit;
 
-use Illuminate\Support\Facades\Hash;
+use Hash;
+use Okipa\LaravelRequestSanitizer\Test\Requests\AuthorizationCheckRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\BeforeSanitizingRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\DisabledEntriesSanitizingRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\DisabledNullEntriesExclusionRequest;
@@ -150,5 +151,24 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
         $request = DisabledEntriesSanitizingRequest::create('test', 'GET', $data);
         $request->sanitizeRequest();
         $this->assertEquals($data, $request->all());
+    }
+
+    public function testRequestWithSanitizedDataInAuthorization()
+    {
+        $data = [
+            'numberBeginningWithZero'         => '0123456',
+            'numberBeginningWithZeroExcepted' => '0123456',
+        ];
+        $request = AuthorizationCheckRequest::create('test', 'GET', $data);
+        $request->sanitizeRequest();
+        $request->authorize(); // the authorize method is always called after the sanitizing treatment
+        $this->assertEquals([
+            'numberBeginningWithZero'         => 123456,
+            'numberBeginningWithZeroExcepted' => '0123456',
+        ], $request->sanitizedData);
+        $this->assertEquals([
+            'numberBeginningWithZero'         => 123456,
+            'numberBeginningWithZeroExcepted' => '0123456',
+        ], $request->all());
     }
 }
