@@ -8,31 +8,35 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/?branch=master)
 
-This package is helping you to easily sanitize your request entries :
+Easily sanitize your request inputs :
 - entries sanitizing ([PHP Input Sanitizer package](https://github.com/ACID-Solutions/input-sanitizer)).
 - null entries exclusion.
 - values safety check.
 
-------------------------------------------------------------------------------------------------------------------------
+## Compatibility
 
-## Third party packages usage
-- This package implements and uses the [PHP Input Sanitizer package](https://github.com/ACID-Solutions/input-sanitizer).
+| Laravel version | PHP version | Package version |
+|---|---|---|
+| ^5.5 | ^7.2 | ^1.1 |
+| ^5.0 | ^7.0 | ^1.0 |
 
-------------------------------------------------------------------------------------------------------------------------
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [API](#api)
+  - [Properties](#properties)
+  - [Public methods](#public-methods)
+- [Testing](#testing)
+- [Changelog](#changelog)
+- [Contributing](#contributing)
+- [Credits](#credits)
+- [Licence](#license)
 
 ## Installation
 
 - Install the package with composer :
 ```bash
 composer require okipa/laravel-request-sanitizer
-```
-
-- Laravel 5.5+ uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
-If you don't use auto-discovery or if you use a Laravel 5.4- version, add the package service provider in the `register()` method from your `app/Providers/AppServiceProvider.php` :
-```php
-// laravel base request
-// https://github.com/Okipa/laravel-base-request
-$this->app->register(Okipa\LaravelRequestSanitizer\LaravelRequestSanitizerServiceProvider::class);
 ```
 
 - Extends the `Okipa\LaravelRequestSanitizer\RequestSanitizer` in your `app/Http/Requests/Request.php` class.
@@ -47,8 +51,6 @@ class Request extends RequestSanitizer
     // your laravel project base request custom features.
 }
 ```
-
-------------------------------------------------------------------------------------------------------------------------
 
 ## Usage
 
@@ -87,15 +89,13 @@ class EditUserRequest extends RequestSanitizer
             // other rules ...
             'user.phone_number'             => 'required|string',
             'user.company_name'             => 'nullable|string|max:255',
-            'user.newsletter.subscription'  => 'required|boolean'
+            'user.newsletter.subscription'  => 'required|boolean',
             'user.permission'               => 'required|array',
             'formatted_date'                => 'required|date|format:Y-m-d H:i:s'
         ];
     }
 }
 ```
-
-------------------------------------------------------------------------------------------------------------------------
 
 ## API
 
@@ -126,3 +126,26 @@ class EditUserRequest extends RequestSanitizer
 - `before()`
     > This package gives you the opportunity to declare this method in your request.  
     > It will be executed before all the request attributes treatments.
+
+## Testing
+
+``` bash
+composer test
+```
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Credits
+
+- [Arthur LORENT](https://github.com/okipa)
+- [All Contributors](../../contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

@@ -1,6 +1,6 @@
 {
     "name": "okipa/laravel-request-sanitizer",
-    "description": "This package is helping you to easily sanitize your request inputs.",
+    "description": "Easily sanitize your request inputs.",
     "keywords": [
         "okipa",
         "package",
@@ -22,12 +22,16 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
-        "illuminate/support": "~5.0",
+        "php": ">=7.2",
+        "illuminate/support": "~5.5.0|~5.6.0|~5.7.0|~5.8.0|^6.0",
         "okipa/php-data-sanitizer": "^1.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^3.6"
+        "orchestra/testbench": "~3.8.0|^4.0",
+        "squizlabs/php_codesniffer": "^3.3",
+        "mockery/mockery": "^1.0",
+        "phpmd/phpmd": "^2.0",
+        "nunomaduro/larastan": "^0.4"
     },
     "autoload": {
         "psr-4": {
@@ -39,6 +43,15 @@
             "Okipa\\LaravelRequestSanitizer\\Test\\": "tests/"
         }
     },
+    "scripts": {
+        "test": [
+            "vendor/bin/phpcbf",
+            "vendor/bin/phpcs",
+            "vendor/bin/phpmd src text phpmd.xml",
+            "vendor/bin/phpstan analyse",
+            "vendor/bin/phpunit"
+        ]
+    },
     "extra": {
         "laravel": {
             "providers": [
@@ -46,5 +59,9 @@
             ]
         }
     },
-    "minimum-stability": "stable"
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
