@@ -1,4 +1,4 @@
-# Laravel Request Sanitizer
+# Easily sanitize your request inputs
 
 [![Source Code](https://img.shields.io/badge/source-okipa/php--data--sanitizer-blue.svg)](https://github.com/Okipa/laravel-request-sanitizer)
 [![Latest Version](https://img.shields.io/github/release/okipa/laravel-request-sanitizer.svg?style=flat-square)](https://github.com/Okipa/laravel-request-sanitizer/releases)
