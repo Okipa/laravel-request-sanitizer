@@ -3,6 +3,7 @@
 namespace Okipa\LaravelRequestSanitizer\Test\Unit;
 
 use Hash;
+use Illuminate\Support\Arr;
 use Okipa\LaravelRequestSanitizer\Test\Requests\AuthorizationCheckRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\BeforeSanitizingRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\DisabledEntriesSanitizingRequest;
@@ -96,8 +97,8 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
         ];
         $request = NestedValuesSafetyCheckedRequest::create('test', 'GET', $userData);
         $request->sanitizeRequest();
-        $userData['user'] = array_add($userData['user'], 'activatedNotGiven', false);
-        $userData['user'] = array_add($userData['user'], 'permissionsNotGiven', []);
+        $userData['user'] = Arr::add($userData['user'], 'activatedNotGiven', false);
+        $userData['user'] = Arr::add($userData['user'], 'permissionsNotGiven', []);
         $this->assertEquals($userData, $request->all());
     }
 

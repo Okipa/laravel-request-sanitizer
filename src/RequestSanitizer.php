@@ -4,6 +4,7 @@ namespace Okipa\LaravelRequestSanitizer;
 
 use DataSanitizer;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 
 class RequestSanitizer extends FormRequest
 {
@@ -173,7 +174,7 @@ class RequestSanitizer extends FormRequest
                     break;
             }
             $value = $this->input($key, $defaultValue);
-            array_set($toMerge, $key, $value);
+            Arr::set($toMerge, $key, $value);
         }
         $mergedBooleanValuesEntries = array_replace_recursive($this->all(), $toMerge);
 
