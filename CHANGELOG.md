@@ -2,7 +2,7 @@
 
 ## [1.1.1](https://github.com/Okipa/laravel-request-sanitizer/releases/tag/1.1.1)
 2019-09-10
-- Locked `okipa/php-data-sanitizer` dependency to `^1.1`.
+- Locked https://github.com/Okipa/php-data-sanitizer dependency to `^1.1`.
 
 ## [1.1.0](https://github.com/Okipa/laravel-request-sanitizer/releases/tag/1.1.0)
 2019-09-04
