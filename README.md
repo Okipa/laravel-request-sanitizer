@@ -9,7 +9,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/?branch=master)
 
 Sanitize your request inputs with the following features :
-- entries sanitizing ([PHP Input Sanitizer package](https://github.com/Okipa/php-data-sanitizer)).
+- entries sanitizing (https://github.com/Okipa/php-data-sanitizer).
 - null entries exclusion.
 - values safety check.
 
