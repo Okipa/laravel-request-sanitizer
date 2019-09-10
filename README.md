@@ -36,7 +36,7 @@ Sanitize your request inputs with the following features :
 
 - Install the package with composer :
 ```bash
-composer require okipa/laravel-request-sanitizer
+composer require "okipa/laravel-request-sanitizer:^1.1"
 ```
 
 - Extends the `Okipa\LaravelRequestSanitizer\RequestSanitizer` in your `app/Http/Requests/Request.php` class.
