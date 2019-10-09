@@ -137,9 +137,7 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
             'nullEntry'      => null,
             'otherNullEntry' => null,
         ];
-        $testRequest = new class extends RequestSanitizer
-        {
-        };
+        $testRequest = (new RequestSanitizer);
         $request = $testRequest->create('test', 'GET', $data);
         $request->sanitizeRequest();
         $this->assertEquals([
