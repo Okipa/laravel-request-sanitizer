@@ -5,15 +5,6 @@ namespace Okipa\LaravelRequestSanitizer\Test\Unit;
 use Hash;
 use Illuminate\Support\Arr;
 use Okipa\LaravelRequestSanitizer\RequestSanitizer;
-use Okipa\LaravelRequestSanitizer\Test\Requests\AuthorizationCheckRequest;
-use Okipa\LaravelRequestSanitizer\Test\Requests\BeforeSanitizingRequest;
-use Okipa\LaravelRequestSanitizer\Test\Requests\DisabledEntriesSanitizingRequest;
-use Okipa\LaravelRequestSanitizer\Test\Requests\DisabledNullEntriesExclusionRequest;
-use Okipa\LaravelRequestSanitizer\Test\Requests\ExceptNullEntryFromNullExclusionRequest;
-use Okipa\LaravelRequestSanitizer\Test\Requests\NestedValuesSafetyCheckedRequest;
-use Okipa\LaravelRequestSanitizer\Test\Requests\NullEntriesExclusionRequest;
-use Okipa\LaravelRequestSanitizer\Test\Requests\NumberBeginningWithZeroNestedValuesSanitizingRequest;
-use Okipa\LaravelRequestSanitizer\Test\Requests\ValuesSafetyCheckedRequest;
 use Okipa\LaravelRequestSanitizer\Test\RequestSanitizerTestCase;
 
 class RequestSanitizerTest extends RequestSanitizerTestCase
@@ -42,7 +33,16 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
             'numberBeginningWithZero'         => '0123456',
             'numberBeginningWithZeroExcepted' => '0123456',
         ];
-        $request = BeforeSanitizingRequest::create('test', 'GET', $data);
+        $testRequest = new class extends RequestSanitizer
+        {
+            public $dataBeforeTreatment;
+
+            public function before()
+            {
+                $this->dataBeforeTreatment = $this->all();
+            }
+        };
+        $request = $testRequest->create('test', 'GET', $data);
         $request->sanitizeRequest();
         $this->assertEquals($data, $request->dataBeforeTreatment);
         $this->assertEquals([
@@ -59,7 +59,11 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
                 'numberBeginningWithZeroExcepted' => '0123456',
             ],
         ];
-        $request = NumberBeginningWithZeroNestedValuesSanitizingRequest::create('test', 'GET', $data);
+        $testRequest = new class extends RequestSanitizer
+        {
+            protected $exceptFromSanitize = ['user.numberBeginningWithZeroExcepted'];
+        };
+        $request = $testRequest->create('test', 'GET', $data);
         $request->sanitizeRequest();
         $this->assertEquals([
             'user' => [
@@ -71,7 +75,18 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
 
     public function testRequestWithSafetyValues()
     {
-        $request = ValuesSafetyCheckedRequest::create('test', 'GET', [
+        $testRequest = new class extends RequestSanitizer
+        {
+            protected $safetyChecks = [
+                'booleanTrue'     => 'boolean',
+                'booleanNull'     => 'boolean',
+                'booleanNotGiven' => 'boolean',
+                'arrayFilled'     => 'array',
+                'arrayEmpty'      => 'array',
+                'arrayNotGiven'   => 'array',
+            ];
+        };
+        $request = $testRequest->create('test', 'GET', [
             'booleanTrue' => true,
             'booleanNull' => null,
             'arrayFilled' => ['test1', 'test2'],
@@ -99,7 +114,16 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
                 'permissionsFilled' => ['test1', 'test2'],
             ],
         ];
-        $request = NestedValuesSafetyCheckedRequest::create('test', 'GET', $userData);
+        $testRequest = new class extends RequestSanitizer
+        {
+            protected $safetyChecks = [
+                'user.activatedTrue'       => 'boolean',
+                'user.activatedNotGiven'   => 'boolean',
+                'user.permissionsFilled'   => 'array',
+                'user.permissionsNotGiven' => 'array',
+            ];
+        };
+        $request = $testRequest->create('test', 'GET', $userData);
         $request->sanitizeRequest();
         $userData['user'] = Arr::add($userData['user'], 'activatedNotGiven', false);
         $userData['user'] = Arr::add($userData['user'], 'permissionsNotGiven', []);
@@ -113,7 +137,10 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
             'nullEntry'      => null,
             'otherNullEntry' => null,
         ];
-        $request = NullEntriesExclusionRequest::create('test', 'GET', $data);
+        $testRequest = new class extends RequestSanitizer
+        {
+        };
+        $request = $testRequest->create('test', 'GET', $data);
         $request->sanitizeRequest();
         $this->assertEquals([
             'notNullEntry' => 'notNull',
@@ -127,7 +154,14 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
             'nullEntry'      => null,
             'otherNullEntry' => null,
         ];
-        $request = DisabledNullEntriesExclusionRequest::create('test', 'GET', $data);
+        $testRequest = new class extends RequestSanitizer
+        {
+            protected $excludeNullEntries = false;
+            protected $exceptFromNullExclusion = [
+                'otherNullEntry',
+            ];
+        };
+        $request = $testRequest->create('test', 'GET', $data);
         $request->sanitizeRequest();
         $this->assertEquals($data, $request->all());
     }
@@ -139,7 +173,13 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
             'nullEntry'      => null,
             'otherNullEntry' => null,
         ];
-        $request = ExceptNullEntryFromNullExclusionRequest::create('test', 'GET', $data);
+        $testRequest = new class extends RequestSanitizer
+        {
+            protected $exceptFromNullExclusion = [
+                'otherNullEntry',
+            ];
+        };
+        $request = $testRequest->create('test', 'GET', $data);
         $request->sanitizeRequest();
         $this->assertEquals([
             'notNullEntry'   => 'notNull',
@@ -153,7 +193,14 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
             'numberBeginningWithZero'         => '0123456',
             'numberBeginningWithZeroExcepted' => '0123456',
         ];
-        $request = DisabledEntriesSanitizingRequest::create('test', 'GET', $data);
+        $testRequest = new class extends RequestSanitizer
+        {
+            protected $sanitizeEntries = false;
+            protected $exceptFromSanitize = [
+                'numberBeginningWithZeroExcepted',
+            ];
+        };
+        $request = $testRequest->create('test', 'GET', $data);
         $request->sanitizeRequest();
         $this->assertEquals($data, $request->all());
     }
@@ -164,7 +211,16 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
             'numberBeginningWithZero'         => '0123456',
             'numberBeginningWithZeroExcepted' => '0123456',
         ];
-        $request = AuthorizationCheckRequest::create('test', 'GET', $data);
+        $testRequest = new class extends RequestSanitizer
+        {
+            public $sanitizedData;
+
+            public function authorize()
+            {
+                $this->sanitizedData = $this->all();
+            }
+        };
+        $request = $testRequest->create('test', 'GET', $data);
         $request->sanitizeRequest();
         $request->authorize(); // the authorize method is always called after the sanitizing treatment
         $this->assertEquals([
