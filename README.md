@@ -4,9 +4,9 @@
 [![Latest Version](https://img.shields.io/github/release/okipa/laravel-request-sanitizer.svg?style=flat-square)](https://github.com/Okipa/laravel-request-sanitizer/releases)
 [![Total Downloads](https://img.shields.io/packagist/dt/okipa/laravel-request-sanitizer.svg?style=flat-square)](https://packagist.org/packages/okipa/laravel-request-sanitizer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/build-status/master)
-[![Code Coverage](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/?branch=master)
+[![Build Status](https://travis-ci.org/Okipa/laravel-request-sanitizer.svg?branch=master)](https://travis-ci.org/Okipa/laravel-request-sanitizer)
+[![Coverage Status](https://coveralls.io/repos/github/Okipa/laravel-request-sanitizer/badge.svg?branch=master)](https://coveralls.io/github/Okipa/laravel-request-sanitizer?branch=master)
+[![Quality Score](https://img.shields.io/scrutinizer/g/Okipa/laravel-request-sanitizer.svg?style=flat-square)](https://scrutinizer-ci.com/g/Okipa/laravel-request-sanitizer/?branch=master)
 
 Sanitize your request inputs with the following features :
 - entries sanitizing (https://github.com/Okipa/php-data-sanitizer).
@@ -17,7 +17,7 @@ Sanitize your request inputs with the following features :
 
 | Laravel version | PHP version | Package version |
 |---|---|---|
-| ^5.5 | ^7.2 | ^1.1 |
+| ^5.5 | ^7.1 | ^1.1 |
 | ^5.0 | ^7.0 | ^1.0 |
 
 ## Table of Contents
