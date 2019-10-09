@@ -16,7 +16,7 @@ before_script:
 script:
   - mkdir -p build/logs
   - vendor/bin/phpcs
-  - vendor/bin/phpmd config,src text phpmd.xml
+  - vendor/bin/phpmd src text phpmd.xml
   - vendor/bin/phpstan analyse
   - vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml
 
