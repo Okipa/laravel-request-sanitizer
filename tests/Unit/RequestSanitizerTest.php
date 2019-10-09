@@ -4,6 +4,7 @@ namespace Okipa\LaravelRequestSanitizer\Test\Unit;
 
 use Hash;
 use Illuminate\Support\Arr;
+use Okipa\LaravelRequestSanitizer\RequestSanitizer;
 use Okipa\LaravelRequestSanitizer\Test\Requests\AuthorizationCheckRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\BeforeSanitizingRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\DisabledEntriesSanitizingRequest;
@@ -12,7 +13,6 @@ use Okipa\LaravelRequestSanitizer\Test\Requests\ExceptNullEntryFromNullExclusion
 use Okipa\LaravelRequestSanitizer\Test\Requests\NestedValuesSafetyCheckedRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\NullEntriesExclusionRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\NumberBeginningWithZeroNestedValuesSanitizingRequest;
-use Okipa\LaravelRequestSanitizer\Test\Requests\NumberBeginningWithZeroValuesSanitizingRequest;
 use Okipa\LaravelRequestSanitizer\Test\Requests\ValuesSafetyCheckedRequest;
 use Okipa\LaravelRequestSanitizer\Test\RequestSanitizerTestCase;
 
@@ -24,7 +24,11 @@ class RequestSanitizerTest extends RequestSanitizerTestCase
             'numberBeginningWithZero'         => '0123456',
             'numberBeginningWithZeroExcepted' => '0123456',
         ];
-        $request = NumberBeginningWithZeroValuesSanitizingRequest::create('test', 'GET', $data);
+        $testRequest = new class extends RequestSanitizer
+        {
+            protected $exceptFromSanitize = ['numberBeginningWithZeroExcepted'];
+        };
+        $request = $testRequest->create('test', 'GET', $data);
         $request->sanitizeRequest();
         $this->assertEquals([
             'numberBeginningWithZero'         => 123456,
